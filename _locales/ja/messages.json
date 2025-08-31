@@ -1,0 +1,23 @@
+{
+  "appDescription": {
+    "message": "あらゆる画像をキャプチャし、あらゆる場所を探索する。これぞOnipatです。"
+  },
+  "pageTitle": {
+    "message": "ページ上の画像"
+  },
+  "refreshButton": {
+    "message": "再スキャン"
+  },
+  "loadingText": {
+    "message": "スキャン中..."
+  },
+  "emptyTab": {
+    "message": "現在のタブが見つかりません。"
+  },
+  "noImages": {
+    "message": "このページに画像は見つかりません。"
+  },
+  "scanError": {
+    "message": "画像のスキャン中にエラーが発生しました。"
+  }
+}

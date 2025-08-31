@@ -1,0 +1,23 @@
+{
+  "appDescription": {
+    "message": "Capture every image, explore everywhere. This is Onipat."
+  },
+  "pageTitle": {
+    "message": "Images on Page"
+  },
+  "refreshButton": {
+    "message": "Rescan"
+  },
+  "loadingText": {
+    "message": "Scanning..."
+  },
+  "emptyTab": {
+    "message": "No current tab found."
+  },
+  "noImages": {
+    "message": "No images found on this page."
+  },
+  "scanError": {
+    "message": "Error scanning for images."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Onipat v3.09 Liquid Prism",
+  "version": "3.9",
+  "description": "__MSG_appDescription__",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "default_locale": "en"
+}

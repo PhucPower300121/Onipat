@@ -1,0 +1,23 @@
+{
+  "appDescription": {
+    "message": "Hút mọi tấm ảnh, khám phá mọi nơi. Đây là Onipat."
+  },
+  "pageTitle": {
+    "message": "Ảnh trên trang"
+  },
+  "refreshButton": {
+    "message": "Quét lại"
+  },
+  "loadingText": {
+    "message": "Đang quét..."
+  },
+  "emptyTab": {
+    "message": "Không tìm thấy tab hiện tại."
+  },
+  "noImages": {
+    "message": "Không tìm thấy ảnh trên trang."
+  },
+  "scanError": {
+    "message": "Lỗi khi quét ảnh."
+  }
+}
