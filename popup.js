@@ -1,8 +1,7 @@
-// popup.js - dùng chrome.scripting.executeScript để lấy ảnh từ tab hiện tại
+// popup.js
 const imagesContainer = document.getElementById('images');
 const refreshBtn = document.getElementById('refresh');
 
-// Hàm để cập nhật tất cả các chuỗi đa ngôn ngữ
 function updateUI() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
@@ -10,72 +9,87 @@ function updateUI() {
   });
 }
 
-// Cập nhật giao diện khi popup được mở
-updateUI();
-
-refreshBtn.addEventListener('click', scanImages);
-
 async function scanImages() {
   imagesContainer.innerHTML = `<div class="empty">${chrome.i18n.getMessage('loadingText')}</div>`;
-
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  if (!tab) {
-    imagesContainer.innerHTML = `<div class="empty">${chrome.i18n.getMessage('emptyTab')}</div>`;
-    return;
-  }
+  
+  if (!tab) return;
 
   try {
     const injection = await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       func: () => {
-        // Hàm chạy trong context của trang web
-        // Lấy tất cả thẻ <img>
-        const imgs = Array.from(document.images || []);
-        // Lấy tất cả thẻ có background-image
-        const backgroundImages = Array.from(document.querySelectorAll('[style*="background-image"]')).map(el => {
-          const match = el.style.backgroundImage.match(/url\(['"]?(.*?)['"]?\)/);
-          return { src: match ? match[1] : '', alt: '', w: 0, h: 0 };
+        const results = [];
+        const seen = new Set();
+        
+        // 1. Quét thẻ <img>
+        document.querySelectorAll('img').forEach(img => {
+          const src = img.currentSrc || img.src;
+          if (src && !seen.has(src)) {
+            seen.add(src);
+            results.push({ src, alt: img.alt || 'Image' });
+          }
         });
 
-        // Kết hợp cả hai loại ảnh
-        const allImages = [...imgs.map(i => ({ src: i.currentSrc || i.src || '', alt: i.alt || '', w: i.naturalWidth || 0, h: i.naturalHeight || 0 })), ...backgroundImages];
+        // 2. Quét tất cả phần tử có style background-image (Logic xịn của cậu đây)
+        // Dùng '*' để quét toàn bộ DOM cho chắc cú
+        document.querySelectorAll('*').forEach(el => {
+          const style = window.getComputedStyle(el);
+          const bg = style.backgroundImage;
+          
+          if (bg && bg !== 'none') {
+            const match = bg.match(/url\(['"]?(.*?)['"]?\)/);
+            if (match && match[1]) {
+              let url = match[1];
+              
+              // Xử lý link tương đối thành tuyệt đối ngay tại tab
+              if (url.startsWith('//')) url = window.location.protocol + url;
+              else if (url.startsWith('/')) url = window.location.origin + url;
+              else if (!url.startsWith('http') && !url.startsWith('data:') && !url.startsWith('blob:')) {
+                 url = new URL(url, window.location.href).href;
+              }
 
-        const seen = new Set();
-        const filtered = [];
-        for (const it of allImages) {
-          if (!it.src) continue;
-          // Loại bỏ các ảnh trùng lặp
-          if (seen.has(it.src)) continue;
-          seen.add(it.src);
-          filtered.push(it);
-        }
-        return filtered;
+              if (!seen.has(url)) {
+                seen.add(url);
+                results.push({ src: url, alt: 'CSS Background' });
+              }
+            }
+          }
+        });
+        return results;
       }
     });
 
     const results = (injection && injection[0] && injection[0].result) || [];
+    imagesContainer.innerHTML = '';
 
-    if (!results.length) {
+    if (results.length === 0) {
       imagesContainer.innerHTML = `<div class="empty">${chrome.i18n.getMessage('noImages')}</div>`;
       return;
     }
 
-    imagesContainer.innerHTML = '';
-    for (const img of results) {
+    results.forEach(img => {
       const wrapper = document.createElement('div');
       wrapper.className = 'image-item';
 
       const thumb = document.createElement('img');
       thumb.className = 'thumb';
-      thumb.src = img.src;
-      thumb.title = img.alt || img.src;
-      thumb.loading = 'lazy';
+      thumb.src = "placeholder.gif"; // Placeholder
 
-      // Mở ảnh ở tab mới khi click
-      thumb.addEventListener('click', () => {
-        chrome.tabs.create({ url: img.src });
-      });
+      // gửi ảnh để fetch qua background script
+      chrome.runtime.sendMessage(
+        { action: "proxyFetch", url: img.src },
+        (response) => {
+          if (response && response.success) {
+            thumb.src = response.data;
+          } else {
+            thumb.src = img.src; // Fallback
+          }
+        }
+      );
 
+      thumb.addEventListener('click', () => chrome.tabs.create({ url: img.src }));
+      
       const tiny = document.createElement('div');
       tiny.className = 'small-src';
       tiny.textContent = img.src;
@@ -83,14 +97,13 @@ async function scanImages() {
       wrapper.appendChild(thumb);
       wrapper.appendChild(tiny);
       imagesContainer.appendChild(wrapper);
-    }
+    });
 
   } catch (err) {
-    console.error(err);
-    imagesContainer.innerHTML = `<div class="empty">${chrome.i18n.getMessage('scanError')}</div>`;
+    imagesContainer.innerHTML = `<div class="empty">Error: ${err.message}</div>`;
   }
 }
 
-
-// Quét ngay khi mở popup
+updateUI();
+refreshBtn.addEventListener('click', scanImages);
 scanImages();

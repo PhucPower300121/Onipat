@@ -1,10 +1,99 @@
-:root{font-family:system-ui,-apple-system,"Segoe UI",Roboto,'Noto Sans',"Helvetica Neue",Arial}
-body{margin:0;padding:10px;width:420px;color:#222;background-color:#ff7a45;height: 100%;display: flex;flex-direction: column;}
-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;position: sticky;top: 0;background-color:#ff7a45;}
-h1{font-size:14px;margin:0;color:#550000;}
-#refresh{font-size:12px;padding:6px 8px;cursor:pointer}
-#images{display:flex;flex-wrap:wrap;gap:8px;overflow:auto;flex: 1;overflow-y: auto; color: #ab1202; }
-.thumb{max-width:120px;max-height:120px;object-fit:contain;border-radius:2px;border:1px solid #ddd;cursor:pointer;background:#fafafa}
-.empty{color:#ab1202;font-size:13px}
-.small-src{font-size:11px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;width:120px}
-button{background-color: #d49f00;color:#fff;}
+:root {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans",
+    "Helvetica Neue", Arial;
+}
+body {
+  margin: 0;
+  padding: 10px;
+  width: 420px;
+  color: #222;
+  background-color: #ff7a45;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  position: sticky;
+  top: 0;
+  background-color: #ff7a45;
+}
+h1 {
+  font-size: 14px;
+  margin: 0;
+  color: #550000;
+}
+#refresh {
+  font-size: 12px;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+#images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  overflow: auto;
+  flex: 1;
+  overflow-y: auto;
+  color: #ab1202;
+}
+.thumb {
+  max-width: 120px;
+  max-height: 120px;
+  object-fit: contain;
+  border-radius: 2px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  background: #fafafa;
+}
+.empty {
+  color: #ab1202;
+  font-size: 13px;
+}
+.small-src {
+  font-size: 11px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 120px;
+}
+button {
+  background-color: #d49f00;
+  color: #fff;
+}
+html {
+  scrollbar-width: thin;
+  /* thu nhỏ thanh kéo */
+  scrollbar-color: #ffbf00 transparent;
+  /* màu thanh kéo + nền */
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ffbf00 !important; /* Hoặc #3b82f6 như cậu muốn */
+  border-radius: 10px !important;
+  /* Tạo hiệu ứng lõm bằng cách thêm border trong suốt */
+}
+
+/* Custom style cho scrollbar */
+.os-theme-light > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+  background: #ffbf00 !important;
+  /* Thumb xanh */
+  border-radius: 6px;
+}
+
+.os-theme-light > .os-scrollbar-vertical {
+  width: 8px;
+}
+
+.os-theme-light > .os-scrollbar-horizontal {
+  height: 8px;
+}
