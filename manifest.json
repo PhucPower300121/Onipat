@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Onipat v3.09.1 Liquid Prism",
-  "version": "3.9",
+  "version": "3.9.1",
   "description": "__MSG_appDescription__",
   "permissions": ["activeTab", "scripting"],
   "host_permissions": [
