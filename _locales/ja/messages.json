@@ -19,5 +19,8 @@
   },
   "scanError": {
     "message": "画像のスキャン中にエラーが発生しました。"
+  },
+  "downloadAllButton": {
+    "message": "すべてダウンロード"
   }
 }

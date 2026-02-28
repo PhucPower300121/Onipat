@@ -19,4 +19,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       });
     return true; // Giữ kết nối để đợi xử lý bất đồng bộ
   }
+  // Logic mới: Tải toàn bộ ảnh ngầm
+  if (request.action === "downloadAllImages") {
+    request.urls.forEach((url, index) => {
+      chrome.downloads.download({
+        url: url,
+        filename: `onipat_downloads/image_${index + 1}.png`,
+        saveAs: true // Hiện hộp thoại Save As nếu cậu muốn, hoặc false để nó tự tải vào folder
+      });
+    });
+    sendResponse({ success: true });
+  }
+  return true;
 });

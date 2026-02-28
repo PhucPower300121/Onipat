@@ -19,5 +19,8 @@
   },
   "scanError": {
     "message": "Error scanning for images."
+  },
+  "downloadAllButton": {
+    "message": "Download All"
   }
 }

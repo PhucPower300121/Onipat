@@ -19,5 +19,8 @@
   },
   "scanError": {
     "message": "Lỗi khi quét ảnh."
+  },
+  "downloadAllButton": {
+    "message": "Tải tất cả"
   }
 }
