@@ -20,6 +20,12 @@ The name "Onipat" is not a random choice; it's a clever play on "only patch." Th
 5.  Select the folder containing the Onipat code.
 6.  You're all set! Just click the Onipat icon on your toolbar and start exploring.
 
+🔄 How to Update
+
+1. Download the latest version from this repo.
+2. Replace the old files in your Onipat folder with the new ones.
+3. Go to `chrome://extensions`, find Onipat, and click the Reload icon. Done!
+
 ### 🤝 Contribution
 
 This code is released under the **MIT License**, so feel free to use, modify, and share it. If you find a bug or have an idea, don't hesitate to open an **issue** or submit a **pull request**!
