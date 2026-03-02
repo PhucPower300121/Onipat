@@ -106,7 +106,7 @@ async function scanImages() {
           if (response && response.success) {
             thumb.src = response.data;
           } else {
-            thumb.src = img.src;
+            thumb.src = "none.png"; // Set a default image if proxy fails
           }
         }
       );

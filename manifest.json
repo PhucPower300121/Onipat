@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Onipat v3.09.2 Liquid Prism",
-  "version": "3.9.2",
+  "name": "Onipat v3.09.3 Liquid Prism",
+  "version": "3.9.3",
   "description": "__MSG_appDescription__",
   "permissions": ["activeTab", "scripting", "downloads"],
   "host_permissions": [
@@ -12,6 +12,14 @@
   },
   "action": {
     "default_popup": "popup.html"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+F",
+        "mac": "Option+F"
+      }
+    }
   },
   "icons": {
     "16": "icon16.png",
