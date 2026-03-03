@@ -15,7 +15,6 @@ body {
 header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 8px;
   position: sticky;
   top: 0;
@@ -64,6 +63,22 @@ button {
   background-color: #d49f00;
   color: #fff;
 }
+button:hover {
+  background-color: #c48f00;
+}
+/* Nút Tải Toàn Bộ - Hiệu ứng Prism */
+#downloadAll {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  margin-right: 5px;
+  padding: 5px 3px;
+  cursor: pointer;
+}
+
+#downloadAll:hover {
+  filter: brightness(1.1);
+}
+
 html {
   scrollbar-width: thin;
   /* thu nhỏ thanh kéo */

@@ -38,7 +38,7 @@ downloadAllBtn.addEventListener('click', () => {
 
 async function scanImages() {
   imagesContainer.innerHTML = `<div class="empty">${chrome.i18n.getMessage('loadingText')}</div>`;
-  downloadAllBtn.style.display = 'none'; 
+  downloadAllBtn.style.opacity = '50%'; 
   
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab) return;
@@ -86,12 +86,12 @@ async function scanImages() {
 
     if (results.length === 0) {
       imagesContainer.innerHTML = `<div class="empty">${chrome.i18n.getMessage('noImages')}</div>`;
-      downloadAllBtn.style.display = 'none';
+      downloadAllBtn.style.opacity = '50%';
       return;
     }
 
     // HIỆN NÚT TẢI KHI CÓ KẾT QUẢ
-    downloadAllBtn.style.display = 'inline-block';
+    downloadAllBtn.style.opacity = '100%';
 
     results.forEach(img => {
       const wrapper = document.createElement('div');
@@ -99,6 +99,7 @@ async function scanImages() {
       const thumb = document.createElement('img');
       thumb.className = 'thumb';
       thumb.src = "placeholder.gif";
+      thumb.title = img.src;
 
       chrome.runtime.sendMessage(
         { action: "proxyFetch", url: img.src },
@@ -115,6 +116,7 @@ async function scanImages() {
       const tiny = document.createElement('div');
       tiny.className = 'small-src';
       tiny.textContent = img.src;
+      tiny.title = img.src;
 
       wrapper.appendChild(thumb);
       wrapper.appendChild(tiny);
