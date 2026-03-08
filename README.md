@@ -13,7 +13,7 @@ The name "Onipat" is not a random choice; it's a clever play on "only patch." Th
 
 ### 🛠️ How to Use It
 
-1.  Clone or download the code from this repo.
+1.  Clone or download the code from this repo(on Release page).
 2.  Open Chrome/Edge and navigate to `chrome://extensions` (or `edge://extensions`).
 3.  Enable **Developer mode** in the top-right corner.
 4.  Click on the **"Load unpacked"** button.
