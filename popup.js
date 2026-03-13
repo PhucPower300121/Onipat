@@ -40,12 +40,28 @@ async function scanImages() {
   imagesContainer.innerHTML = `<div class="empty">${chrome.i18n.getMessage('loadingText')}</div>`;
   downloadAllBtn.style.opacity = '50%'; 
   
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  if (!tab) return;
+  let targetTabId;
+  const params = new URLSearchParams(window.location.search);
+  
+  if (params.has('tabId')) {
+    targetTabId = parseInt(params.get('tabId'));
+  } else {
+    // Đổi tên biến thành activeTab cho đỡ đụng hàng với code cũ
+    const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (activeTab) {
+      targetTabId = activeTab.id;
+    }
+  }
+
+  // Chặn ngay lập tức nếu không có ID
+  if (!targetTabId) {
+    imagesContainer.innerHTML = `<div class="empty">Không tìm thấy tab để quét!</div>`;
+    return;
+  }
 
   try {
     const injection = await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
+      target: { tabId: targetTabId }, // Vẫn dùng cơ chế cũ, chỉ thay ID chuẩn vào đây
       func: () => {
         const results = [];
         const seen = new Set();
@@ -90,7 +106,6 @@ async function scanImages() {
       return;
     }
 
-    // HIỆN NÚT TẢI KHI CÓ KẾT QUẢ
     downloadAllBtn.style.opacity = '100%';
 
     results.forEach(img => {
@@ -107,7 +122,7 @@ async function scanImages() {
           if (response && response.success) {
             thumb.src = response.data;
           } else {
-            thumb.src = "none.png"; // Set a default image if proxy fails
+            thumb.src = "none.png"; 
           }
         }
       );
@@ -128,6 +143,33 @@ async function scanImages() {
   }
 }
 
+const pinBtn = document.getElementById('pinBtn');
+const params = new URLSearchParams(window.location.search);
+
+// Kiểm tra xem có đang ở cửa sổ Pin không
+if (params.has('tabId')) {
+  pinBtn.textContent = '✖'; // Đổi icon thành nút Đóng
+  pinBtn.title = chrome.i18n.getMessage("unpinButton"); // Tooltip thay đổi
+  pinBtn.addEventListener('click', () => {
+    window.close(); // Đang là cửa sổ nổi thì click là đóng luôn
+  });
+} else {
+  pinBtn.title = chrome.i18n.getMessage("pinButton"); // Tooltip thay đổi
+  // Đang ở popup thường thì giữ nguyên logic Pin
+  pinBtn.addEventListener('click', async () => {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (tab) {
+      chrome.windows.create({
+        url: `popup.html?tabId=${tab.id}`,
+        type: "popup",
+        width: 440,
+        height: 650
+      }, () => {
+        window.close();
+      });
+    }
+  });
+}
 updateUI();
 refreshBtn.addEventListener('click', scanImages);
 scanImages();

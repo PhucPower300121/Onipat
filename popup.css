@@ -79,6 +79,15 @@ button:hover {
   filter: brightness(1.1);
 }
 
+#pinBtn {
+  background: #ffbf00;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 14px;
+}
+#pinBtn:hover { background: #e6ac00; }
+
 html {
   scrollbar-width: thin;
   /* thu nhỏ thanh kéo */
